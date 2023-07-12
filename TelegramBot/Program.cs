@@ -5,15 +5,15 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using HtmlAgilityPack;
 
 var botClient = new TelegramBotClient("5850666179:AAFbwzTQOdrLOgJGNZOh2wa_59c71lk56f4");
 
 using CancellationTokenSource cts = new();
 
-// StartReceiving does not block the caller thread. Receiving is done on the ThreadPool.
 ReceiverOptions receiverOptions = new()
 {
-    AllowedUpdates = Array.Empty<UpdateType>() // receive all update types except ChatMember related updates
+    AllowedUpdates = Array.Empty<UpdateType>() 
 };
 
 botClient.StartReceiving(
@@ -28,15 +28,35 @@ var me = await botClient.GetMeAsync();
 Console.WriteLine($"Start listening for @{me.Username}");
 Console.ReadLine();
 
-// Send cancellation request to stop bot
 cts.Cancel();
+
+
+async Task<string> GetCurrencyRate()
+{
+    var url = "https://myfin.by/currency/minsk";
+    var web = new HtmlWeb();
+    var doc = await web.LoadFromWebAsync(url);
+
+    var rateElement = doc.DocumentNode.SelectSingleNode("//span[contains(@class, 'accent')]");
+    var usdValue = doc.DocumentNode.SelectSingleNode("//a[contains(@class , 'currency ')]");
+
+    if (rateElement != null)
+    {
+        var rate = rateElement.InnerText.Trim();
+        var value = usdValue.InnerText.Trim();
+
+        return $"Текущий курс: {value} = {rate} BYN \n ";
+    }
+
+    return "Не удалось получить данные курса";
+}
+
+
 
 async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
 {
-    // Only process Message updates: https://core.telegram.org/bots/api#message
     if (update.Message is not { } message)
         return;
-    // Only process text messages
     if (message.Text is not { } messageText)
         return;
 
@@ -44,19 +64,25 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
 
     Console.WriteLine($"Received a '{messageText}' message from {message.From.FirstName}");
 
+    BotCommand[] commands = await botClient.GetMyCommandsAsync();
 
-
-    if(message.Text == "/start")
+    if (message.Text == "/start")
     {
-        Message mainMessege = await botClient.SendTextMessageAsync(
-            chatId:chatId,
-            text: "Добро пожаловать!\n/help - Список команд.",
-            cancellationToken: cancellationToken
-            );
-        return;
+
+        var commandList = string.Join("\n", commands.Select(c => $"/{c.Command} - {c.Description}"));
+        
+            Message mainMessege = await botClient.SendTextMessageAsync(
+                    chatId: chatId,
+                    text: "Добро пожаловать!\nСписок команд:\n " +
+                    $"{commandList}",
+                    cancellationToken: cancellationToken
+                    );
+            
+        
+       
     }
 
-
+   
 
     if(message.Text == "/photo")
     {
@@ -74,25 +100,19 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
     {
         Message sentAudio = await botClient.SendAudioAsync(
              chatId: chatId,
-    audio: InputFile.FromUri("https://github.com/TelegramBots/book/raw/master/src/docs/audio-guitar.mp3"),
-    /*
-    performer: "Joel Thomas Hunger",
-    title: "Fun Guitar and Ukulele",
-    duration: 91, // in seconds
-    */
+    audio: InputFile.FromUri("https://github.com/pastilkaxo/USD-Course-Bot/blob/main/Sounds/%D0%92%D0%B0%D0%B6%D0%BD%D0%BE.mp3"),
     cancellationToken: cancellationToken
             );
     }
 
 
-      
+    if (message.Text == "/currency")
+    {
+        string currencyRate = await GetCurrencyRate();
+        await botClient.SendTextMessageAsync(chatId: chatId, text: currencyRate);
+        return;
+    }
 
-
-   
-
-
-
- 
 
 }
 

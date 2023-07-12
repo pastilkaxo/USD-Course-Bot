@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "TelegramBot/1.0.0": {
         "dependencies": {
+          "HtmlAgilityPack": "1.11.49",
           "Newtonsoft.Json": "13.0.3",
           "SignalGo.Server.TelegramBot": "5.5.2",
           "System.IO": "4.3.0",
@@ -19,6 +20,14 @@
         },
         "runtime": {
           "TelegramBot.dll": {}
+        }
+      },
+      "HtmlAgilityPack/1.11.49": {
+        "runtime": {
+          "lib/netstandard2.0/HtmlAgilityPack.dll": {
+            "assemblyVersion": "1.11.49.0",
+            "fileVersion": "1.11.49.0"
+          }
         }
       },
       "Microsoft.Extensions.Configuration/6.0.0": {
@@ -954,6 +963,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "HtmlAgilityPack/1.11.49": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Mo5Thds22DOvJOBOTmMosHsykqoTHECuHzjc1VWQMIjUTXZ+W03m/+HHH1dkWYfV8fOkXsI3eXCXVGNjAsdRKQ==",
+      "path": "htmlagilitypack/1.11.49",
+      "hashPath": "htmlagilitypack.1.11.49.nupkg.sha512"
     },
     "Microsoft.Extensions.Configuration/6.0.0": {
       "type": "package",

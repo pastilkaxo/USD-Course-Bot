@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "5tigaSbk9N9m7yGvF6Y0AnEUsaiS+vOqZJ8KXAwkw/7QPnLNSNfACp3qOH+AsOXHJiPHbQlRpwDoDB/rIaFPkg==",
+  "dgSpecHash": "QdnImD2FRnuMP44RKNrBPGWKRqt33MryqptT6KID13c4BO+AUHcBgSihJ9OEfI+nPrgebzK/nbCFXuEKiSZBWQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Влад\\source\\repos\\TelegramBot\\TelegramBot\\TelegramBot.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Влад\\.nuget\\packages\\htmlagilitypack\\1.11.49\\htmlagilitypack.1.11.49.nupkg.sha512",
     "C:\\Users\\Влад\\.nuget\\packages\\microsoft.extensions.configuration\\6.0.0\\microsoft.extensions.configuration.6.0.0.nupkg.sha512",
     "C:\\Users\\Влад\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\6.0.0\\microsoft.extensions.configuration.abstractions.6.0.0.nupkg.sha512",
     "C:\\Users\\Влад\\.nuget\\packages\\microsoft.extensions.configuration.binder\\6.0.0\\microsoft.extensions.configuration.binder.6.0.0.nupkg.sha512",
